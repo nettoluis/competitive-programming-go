@@ -1,66 +1,50 @@
 package main
 
 import (
-    "fmt"
-    "strings"
-    "strconv"
+	"fmt"
+	"log"
+	"strconv"
+	"strings"
+    "sort"
 )
 
-func intCasting(s []string) []int {
-    saida := make([]int, len(s))
+func parseIntegers(s []string) ([]int, error) {
+	saida := make([]int, len(s))
 
-    for i := 0; i < len(s); i++ {
-        elemento, err := strconv.Atoi(s[i])
-        if err != nil {
-            panic(err)
-        }
+	for i, strVal := range s {
+		val, err := strconv.Atoi(strings.TrimSpace(strVal))
+		if err != nil {
+			return nil, fmt.Errorf("falha ao converter '%s': %w", strVal, err)
+		}
+		saida[i] = val
+	}
 
-        saida[i] = elemento
-    } 
-
-    return saida
-}
-
-func swap(s []int, i1, i2 int) {
-    temp := s[i1]
-    s[i1] = s[i2]
-    s[i2] = temp
-} 
-
-func bubbleSort(s []int) {
-    for true {
-        swapped := false
-        for i := 0; i < (len(s) - 1); i++ {
-            if s[i] > s[i + 1] {
-                swap(s, i, i + 1)
-                swapped = true
-            }
-        }
-
-        if !swapped {
-            break
-        }
-    }
+	return saida, nil
 }
 
 func main() {
-    var entrada string
+	var entrada string
 
-    fmt.Scan(&entrada)
-    nums := strings.Split(entrada,"+")
+	if _, err := fmt.Scan(&entrada); err != nil {
+		log.Fatal(err)
+	}
 
-    numsInt := intCasting(nums)
+	nums := strings.Split(entrada, "+")
 
-    bubbleSort(numsInt)
+	numsInt, err := parseIntegers(nums)
+	if err != nil {
+		log.Fatalf("Erro na entrada: %v", err)
+	}
 
-    saida := ""
-    for i := 0; i < len(nums); i++ {
-        if i != 0 {
-            saida += fmt.Sprintf("+%d", numsInt[i])
-        } else {
-            saida += fmt.Sprintf("%d", numsInt[i])
-        }
-    }
+    sort.Ints(numsInt)
 
-    fmt.Println(saida)
+	var sb strings.Builder
+	for i, num := range numsInt {
+		if i > 0 {
+			sb.WriteString("+")
+		}
+		sb.WriteString(strconv.Itoa(num))
+	}
+
+	fmt.Println(sb.String())
 }
