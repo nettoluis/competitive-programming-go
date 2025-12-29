@@ -1,4 +1,4 @@
-package main
+package utils
 
 func twoSum(nums []int, target int) []int {
     indice := make(map[int]int)
