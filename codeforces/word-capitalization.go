@@ -25,7 +25,7 @@ func main() {
         return
     }
 
-    novaString := string(unicode.ToUpper(r)) + entrada[size:]
+    nova := string(unicode.ToUpper(r)) + entrada[size:]
 
-    fmt.Println(novaString)
+    fmt.Println(nova)
 }
