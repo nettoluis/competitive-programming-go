@@ -3,31 +3,48 @@ import subprocess
 import glob
 import sys
 
-GO_FILE = "missing-number.go"
 BINARY_NAME = "solucao_temp"
 
 def run_tests():
-    print(f"--- Iniciando Testes para {GO_FILE} ---")
     
-    # 1. Compila o código Go
-    print("Compilando...", end=" ")
-    if os.name == 'nt':
-        BINARY_NAME_FULL = BINARY_NAME + ".exe"
-    else:
-        BINARY_NAME_FULL = "./" + BINARY_NAME
+    if len(sys.argv) < 2:
+        print("❌ Erro: Especifique o arquivo Go.")
+        print("   Uso correto: python test_runner.py nome_do_arquivo.go")
+        return
 
-    compile_cmd = ["go", "build", "-o", BINARY_NAME, GO_FILE]
+    go_file = sys.argv[1] 
+
+    if not os.path.exists(go_file):
+        print(f"❌ Erro: O arquivo '{go_file}' não existe nesta pasta.")
+        return
+    
+
+    print(f"--- Iniciando Testes para {go_file} ---")
+    
+    
+    print("Compilando...", end=" ")
+    
+    if os.name == 'nt': 
+        binary_name_full = BINARY_NAME + ".exe"
+    else: 
+        binary_name_full = "./" + BINARY_NAME
+
+    
+    compile_cmd = ["go", "build", "-o", BINARY_NAME, go_file]
+    
     if subprocess.call(compile_cmd) != 0:
         print("❌ Erro de compilação!")
         return
     print("Sucesso!\n")
 
-    inputs = sorted(glob.glob("./testes/*.in"))
+    
+    inputs = sorted(glob.glob("testes/*.in"))
     
     if not inputs:
         print("Nenhum arquivo .in encontrado.")
         return
 
+    
     for input_file in inputs:
         expected_output_file = input_file.replace(".in", ".out")
         
@@ -40,7 +57,7 @@ def run_tests():
         with open(input_file, 'r') as infile:
             try:
                 result = subprocess.run(
-                    [BINARY_NAME_FULL], 
+                    [binary_name_full], 
                     stdin=infile, 
                     capture_output=True, 
                     text=True, 
@@ -64,8 +81,9 @@ def run_tests():
             except Exception as e:
                 print(f"⚠️  ERRO DE EXECUÇÃO: {e}")
 
+    
     try:
-        os.remove(BINARY_NAME_FULL)
+        os.remove(binary_name_full)
     except:
         pass
 
