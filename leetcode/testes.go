@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-    fmt.Println(utils.RomanToInt("III"))
-    fmt.Println(utils.RomanToInt("MMVI"))
-    fmt.Println(utils.RomanToInt("MDMCCCIII"))
+    strings := []string{"dogs", "racecar", "car"}
+    fmt.Println(utils.LongestCommonPrefix(strings))
 }
