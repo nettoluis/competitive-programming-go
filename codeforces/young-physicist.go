@@ -19,7 +19,7 @@ func main() {
         coordenadas["z"] += zi
     }
 
-    if coordenadas["x"] + coordenadas["y"] + coordenadas["z"] == 0 {
+    if coordenadas["x"] == 0 && coordenadas["y"] == 0 && coordenadas["z"] == 0 {
         fmt.Println("YES")
     } else {
         fmt.Println("NO")
