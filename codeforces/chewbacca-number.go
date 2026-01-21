@@ -17,7 +17,7 @@ func main() {
             panic(err)
         }
 
-        if numeroInt < 5 || numeroInt == 9 {
+        if numeroInt < 5 || (numeroInt == 9 && i == 0) {
             saida += fmt.Sprintf("%d", numeroInt)
         } else {
             saida += fmt.Sprintf("%d", 9 - numeroInt)
