@@ -11,12 +11,18 @@ func main() {
 		var a, b, c int
 
 		fmt.Scan(&a, &b, &c)
-
-		switch (a + b + c) % 2{
-			case 0: 
+		if c % 2 == 0 {
+				if a > b {
+					fmt.Println("First")
+				} else {
+					fmt.Println("Second")
+				}
+		} else {
+			if b > a {
 				fmt.Println("Second")
-			default:
+			} else {
 				fmt.Println("First")
+			}
 		}
 	}
 }
