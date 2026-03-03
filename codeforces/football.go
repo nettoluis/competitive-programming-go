@@ -2,27 +2,35 @@ package main
 
 import "fmt"
 
+func janelaDeslizante(inicio int, elemento byte, sequencia string) bool {
+    for i := inicio; i < inicio+7; i++ {
+        if sequencia[i] != elemento {
+            return false
+        }
+    }
+    return true
+}
+
 func main() {
-    var qtd int
+    var jogo string
+    fmt.Scan(&jogo)
 
-    fmt.Scan(&qtd)
-
-    times := make(map[string]int)
-    for i := 0; i < qtd; i++ {
-        var time string
-
-        fmt.Scan(&time)
-
-        times[time]++
+    encontrado := false
+    for i := 0; i+7 <= len(jogo); i++ {
+        if jogo[i] == '1' {
+            encontrado = janelaDeslizante(i, '1', jogo)
+        } else {
+            encontrado = janelaDeslizante(i, '0', jogo)
+        }
+        
+        if encontrado {
+            break
+        }
     }
 
-    maior, timeVencedor := 0, ""
-    for k := range times {
-        if times[k] >= maior {
-            maior = times[k]
-            timeVencedor = k
-        }
-    } 
-
-    fmt.Println(timeVencedor)
+    if encontrado {
+        fmt.Println("YES")
+    } else {
+        fmt.Println("NO")
+    }
 }
